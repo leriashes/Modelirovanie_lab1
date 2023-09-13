@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container text-center">
+        <div style="margin-bottom: 4%;"">
+            <h2 class="text-center" style="margin-top: 4%;" >
+                Исходный порядок
+            </h2>
+            <div class="row">
+              <div class="col-3">
+                <div class="row p-4">
+                    <table class="table table-bordered" >
+                        <thead>
+                          <tr>
+                            <th scope="col">№</th>
+                            <th scope="col">a<sub>i</sub></th>
+                            <th scope="col">b<sub>i</sub></th>
+                            {% if title == '3' %}
+                                <th scope="col">c<sub>i</sub></th>
+                            {% endif %}
+                            
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            {% if title == '3' %}
+                                <td><input type="text" class="form-control"></td>
+                            {% endif %}
+                            
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            {% if title == '3' %}
+                                <td><input type="text" class="form-control"></td>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            {% if title == '3' %}
+                                <td><input type="text" class="form-control"></td>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            {% if title == '3' %}
+                                <td><input type="text" class="form-control"></td>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td><input type="text" class="form-control"></td>
+                            <td><input type="text" class="form-control"></td>
+                            {% if title == '3' %}
+                                <td><input type="text" class="form-control"></td>
+                            {% endif %}
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+                    <button type="button" class="btn btn-primary" style="width: 90%;" id="drawGraph"> Построение графика Ганта </button>
+                    <button type="button" class="btn btn-primary" style="width: 90%; margin-top: 3%;" id="findDecision">Поиск оптимального порядка</button>
+                </div>
+              <div class="col-9">
+                <div class="row p-4" id = "cardChart1" style="display: none;">
+                    <div class="card mb-4 m-auto" style = "width: 90%;">
+                        <div class="card-body" >
+                            <div id = "chart1"></div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div id = "cardChart2" style="display: none;">
+            <h2 class="text-center">
+                Оптимальный порядок
+            </h2>
+            <div class="row">
+                <div class="col-3">
+                    <div class="row p-4">
+                        <table class="table table-bordered" >
+                            <thead>
+                              <tr>
+                                <th scope="col">№</th>
+                                <th scope="col">a<sub>i</sub></th>
+                                <th scope="col">b<sub>i</sub></th>
+                                <th scope="col" style="display: none;">c<sub>i</sub></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td style="display: none;">@mdo</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td style="display: none;">@fat</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">3</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td style="display: none;">@twitter</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">4</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td style="display: none;">@twitter</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">5</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td style="display: none;">@twitter</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                <div class="col-9">
+                  <div class="row p-4">
+                      <div class="card m-auto" style = "width: 90%;">
+                          <div class="card-body">
+                              <div id = "chart2"></div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        
+      </div>
+
+    
+
+    
+
+    <!-- plotly CDN -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script>
+        var graph1 = {{ graph1JSON | safe}};
+        Plotly.plot("chart1", graph1, {})
+        Plotly.plot("chart2", graph1, {})
+    </script>
+{% endblock %}
