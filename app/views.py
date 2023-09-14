@@ -5,6 +5,8 @@ import pandas as pd
 import json
 import plotly
 import plotly.express as px
+import plotly.figure_factory as ff
+import plotly.graph_objects as go
 
 @app.route('/')
 @app.route('/index')
@@ -55,16 +57,58 @@ def index():
     else:
         print(request.args.get('button_text'))
 
-    print(request.args.get('button_text'))
-    # Graph One
-    df = pd.DataFrame([
-    dict(Task="Job A", Start='2009-01-01', Finish='2009-02-28'),
-    dict(Task="Job B", Start='2009-03-05', Finish='2009-04-15'),
-    dict(Task="Job C", Start='2009-02-20', Finish='2009-05-30')
-])
 
-    fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task")
-    fig.update_yaxes(autorange="reversed")
+
+    
+
+
+
+
+    
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        y=['B', 'A'],
+        x=[20, 14],
+        name='1',
+        orientation='h',
+        width=0.5,
+        marker=dict(
+            color='rgba(246, 78, 139, 0.6)',
+            line=dict(color='rgba(246, 78, 139, 1.0)', width=2)
+        )
+    ))
+
+    fig.add_trace(go.Bar(
+        y=['B', 'A'],
+        x=[13, 11],
+        name='2',
+        orientation='h',
+        width=0.5,
+        marker=dict(
+            color='rgba(58, 91, 80, 0.6)',
+            line=dict(color='rgba(58, 91, 80, 1.0)', width=2)
+        ),
+    ))
+
+    fig.add_trace(go.Bar(
+        y=['B', 'A'],
+        x=[12, 18],
+        name='2',
+        orientation='h',
+        width=0.5,
+        marker=dict(
+            color='rgba(58, 71, 80, 0.6)',
+            line=dict(color='rgba(58, 71, 80, 1.0)', width=2)
+        ),
+    ))
+
+    
+    
+
+    fig.update_layout(barmode='stack', legend_traceorder='normal')
+
 
     graph1JSON = json.dumps(fig, cls =plotly.utils.PlotlyJSONEncoder)
 

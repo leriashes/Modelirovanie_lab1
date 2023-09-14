@@ -30,7 +30,9 @@ $(document).ready(function(){
                 cells_values: JSON.stringify(values),
             },
             success: function(response){
-                $('#drawGraph').text(response.secs + 123);
+                //$('#drawGraph').text(response.secs + 123);
+                
+                
                 /*let cells = document.querySelectorAll('.form-control')
                 //$('#drawGraph').text(cells.length + 1);
                 let k = 0;
