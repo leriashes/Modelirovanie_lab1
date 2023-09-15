@@ -70,9 +70,10 @@
                 </div>
               <div class="col-9">
                 <div class="row p-4" id = "cardChart1" style="display: none;">
-                    <div class="card mb-4 m-auto" style = "width: 90%;">
+                    <div class="card mb-4 m-auto p-0 text-center" style = "width: 90%; height: 500px;">
+                        
                         <div class="card-body" >
-                            <div id = "chart1"></div>
+                            <div id = "chart1" style="margin-left: 0; margin-right: 0; margin-bottom: 0; margin-top: auto; height: 480px; width: 800px;" ></div>
                         </div>
                     </div>
                 </div>
@@ -150,8 +151,8 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
     <script>
-        var graph1 = {{ graph1JSON | safe}};
-        Plotly.plot("chart1", graph1, {})
-        Plotly.plot("chart2", graph1, {})
+        //var graph1 = {{ graph1JSON | safe}};
+        //Plotly.plot("chart1", graph1, {})
+        //Plotly.plot("chart2", graph1, {})
     </script>
 {% endblock %}

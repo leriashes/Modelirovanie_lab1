@@ -29,45 +29,8 @@ $(document).ready(function(){
                 button_text: $(this).text(),
                 cells_values: JSON.stringify(values),
             },
+
             success: function(response){
-                //$('#drawGraph').text(response.secs + 123);
-                
-                
-                /*let cells = document.querySelectorAll('.form-control')
-                //$('#drawGraph').text(cells.length + 1);
-                let k = 0;
-                for(let i = 0; i < cells.length; i++)
-                {
-                    let count = 0;
-
-                    for(let j = 0; j < cells[i].value.length; j++)
-                    {
-                        if (cells[i].value[j] >= '0' && cells[i].value[j] <= '9')
-                        {
-                            count++;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    //$('#findDecision').text(count);
-
-                    if (count < cells[i].value.length || cells[i].value.length == 0 || cells[i].value.length == 1 && cells[i].value[0] == '0')
-                    {
-                        cells[i].style.backgroundColor = "#ea9999";
-                    }
-                    else
-                    {
-                        cells[i].style.backgroundColor = "#ffffff";
-                        k++;
-                    }
-
-                }
-
-                //$('#drawGraph').text(k);
-                */
                 
                 if (response.bad.length != 0)
                 {
@@ -96,31 +59,76 @@ $(document).ready(function(){
                     {
                         cells[i].style.backgroundColor = "#ffffff";
                     }
+                    
+                    var graph1 = response.graphikJSON;
+                    Plotly.plot("chart1", graph1, {})
+
+                    var data = [];
+                    var colors = ['rgba(237, 178, 81, 0.6)', 'rgba(187, 247, 116, 0.6)', 'rgba(103, 224, 224, 0.6)', 'rgba(152, 101, 247, 0.6)', 'rgba(239, 141, 131, 0.6)', 'rgba(23, 53, 110, 0.4)'];
+
+                    var xs = response.x_start.split(' ');
+
+                    for (i = 0; i < cells.length; i += 2)
+                    {
+                        data.push({
+                            x: [parseInt(xs[i / 2])],
+                            y: ['B'],
+                            name: 'xi',
+                            orientation: 'h',
+                            width: 0.5,
+                            marker: {
+                              text: (i /2 + 1).toString(),
+                              color: colors[5],
+                              width: 1
+                            },
+                            type: 'bar'
+                        });
+
+                        data.push({
+                            x: [parseInt(cells[i + 1].value), parseInt(cells[i].value)],
+                            y: ['B', 'A'],
+                            name: (i /2 + 1).toString(),
+                            orientation: 'h',
+                            width: 0.5,
+                            marker: {
+                              color: colors[i / 2],
+                              width: 1
+                            },
+                            type: 'bar'
+                        });
+
+                    }
+                      
+                      t = response.T / 45 + 1
+                      
+                      var layout = {
+                        title: 'Диаграмма Ганта',
+                        barmode: 'stack',
+                        legend:
+                        {
+                            traceorder: 'normal'
+                        },
+                        xaxis: {
+                            dtick: t,
+                            showline: true
+                        },
+                        /*annotations: [{
+                            text: 't',
+                            x: 45,
+                            y: -1,
+                            textposition: 'bottom left',
+                            width: 0.5,
+                            ax: -4000,
+                            ay: 0,
+                            showarrow: true
+                        }]*/
+                      };
+                      
+                      Plotly.newPlot("chart1", data, layout);
 
                     let a = document.querySelector('#cardChart1');
                     a.style.display = 'block';
                 }
-                /*if (k < cells.length)
-                {
-                    //$('#drawGraph').text('Всё плохо');
-                }
-                else
-                {
-                    //$('#drawGraph').text(k);
-                    /*if (cells[0].value == '1')
-                    {
-                        $('#findDecision').text(45);
-                    }
-                    else
-                    {
-                        $('#findDecision').text(cells[0].value);
-                    }
-                    //$('#drawGraph').text(k);*/
-
-                   /* let a = document.querySelector('#cardChart1');
-                    a.style.display = 'block';
-                }*/
-                
 
 
             }
