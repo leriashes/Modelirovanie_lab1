@@ -65,23 +65,26 @@ $(document).ready(function(){
 
                     var data = [];
                     var colors = ['rgba(237, 178, 81, 0.6)', 'rgba(187, 247, 116, 0.6)', 'rgba(103, 224, 224, 0.6)', 'rgba(152, 101, 247, 0.6)', 'rgba(239, 141, 131, 0.6)', 'rgba(23, 53, 110, 0.4)'];
-
+                    var numbers = '₁₂₃₄₅'
+                    
                     var xs = response.x_start.split(' ');
+
+                    
 
                     for (i = 0; i < cells.length; i += 2)
                     {
                         data.push({
                             x: [parseInt(xs[i / 2])],
                             y: ['B'],
-                            name: 'xi',
+                            name: 'x' + numbers[i / 2],
                             orientation: 'h',
                             width: 0.5,
                             marker: {
-                              text: (i /2 + 1).toString(),
                               color: colors[5],
                               width: 1
                             },
-                            type: 'bar'
+                            type: 'bar',
+                            showlegend: false,
                         });
 
                         data.push({
@@ -99,6 +102,21 @@ $(document).ready(function(){
 
                     }
                       
+                    data.push({
+                        x: [0],
+                        y: ['B'],
+                        name: 'xᵢ',
+                        orientation: 'h',
+                        width: 0.5,
+                        marker: {
+                          color: colors[5],
+                          width: 1
+                        },
+                        type: 'bar',
+                        
+                    });
+
+
                       t = response.T / 45 + 1
                       
                       var layout = {
