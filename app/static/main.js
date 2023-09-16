@@ -174,7 +174,7 @@ $(document).ready(function(){
                         values.push(cells[i].value)
                     }
 
-                    draw_graph([1, 2, 3, 4, 5], response.X.split(' '), response.T, values, 1);
+                    draw_graph([1, 2, 3, 4, 5], response.mas_x.split(' '), response.T, values, 1);
 
                     /*var data = [];
                     var colors = ['rgba(237, 178, 81, 0.6)', 'rgba(187, 247, 116, 0.6)', 'rgba(103, 224, 224, 0.6)', 'rgba(152, 101, 247, 0.6)', 'rgba(239, 141, 131, 0.6)', 'rgba(23, 53, 110, 0.4)'];
@@ -308,7 +308,7 @@ $(document).ready(function(){
 
                     //$('#findDecision').text(values.length);
 
-                    draw_graph(s, response.X.split(' '), response.T, values, 2);
+                    draw_graph(s, response.mas_x.split(' '), response.T, values, 2);
 
                     let a = document.querySelector('#cardChart2');
                     a.style.display = 'block';
