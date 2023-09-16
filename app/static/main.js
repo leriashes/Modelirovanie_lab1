@@ -1,71 +1,81 @@
-if (window.jQuery) {
-    var vJq = jQuery.fn.jquery;
-    console.log(vJq);
-}
-else {
-    console.log(123);
+function get_values()
+{
+    values = [];
+    let cells = document.querySelectorAll('.form-control')
+
+    for(let i = 0; i < cells.length; i++)
+    {
+        values.push({val : cells[i].value});
+    }
+
+    return values;
 }
 
-values = [];
+function bad_values(bad)
+{
+    result = (bad.length != 0);
+    let cells = document.querySelectorAll('.form-control');
+
+    if (result)
+    {
+        bad_val = bad.split(' ');
+
+        j = 0;
+        for (i = 0; i < cells.length; i++)
+        {
+            k = parseInt(bad_val[j]);
+
+            if (k == i)
+            {
+                cells[i].style.backgroundColor = "#ea9999";
+                j++;
+            }
+            else
+            {
+                cells[i].style.backgroundColor = "#ffffff";
+            }
+            
+        }
+    }
+    else
+    {
+        for (i = 0; i < cells.length; i++)
+        {
+            cells[i].style.backgroundColor = "#ffffff";
+        }
+    }
+    
+    return result;
+}
 
 $(document).ready(function(){
     $('#drawGraph').click(function(e)
     {
         e.preventDefault();
 
-        values = [];
-        let cells = document.querySelectorAll('.form-control')
+        values = get_values();
 
-        for(let i = 0; i < cells.length; i++)
-        {
-            values.push({val : cells[i].value});
-        }
+        let cells = document.querySelectorAll('.form-control')
 
         $.ajax({
             url: '',
             type: 'get',
             contentType: 'application/json',
             data: {
-                button_text: $(this).text(),
+                action: 'draw',
                 cells_values: JSON.stringify(values),
             },
 
             success: function(response){
-                
-                if (response.bad.length != 0)
-                {
-                    bad_val = response.bad.split(' ');
-                    
-                    j = 0;
-                    for (i = 0; i < cells.length; i++)
-                    {
-                        k = parseInt(bad_val[j]);
 
-                        if (k == i)
-                        {
-                            cells[i].style.backgroundColor = "#ea9999";
-                            j++;
-                        }
-                        else
-                        {
-                            cells[i].style.backgroundColor = "#ffffff";
-                        }
-                        
-                    }
-                }
-                else
+                if (!bad_values(response.bad))
                 {
-                    for (i = 0; i < cells.length; i++)
-                    {
-                        cells[i].style.backgroundColor = "#ffffff";
-                    }
-                    
                     var graph1 = response.graphikJSON;
-                    Plotly.plot("chart1", graph1, {})
+                    Plotly.plot("chart1", graph1, {});
 
                     var data = [];
                     var colors = ['rgba(237, 178, 81, 0.6)', 'rgba(187, 247, 116, 0.6)', 'rgba(103, 224, 224, 0.6)', 'rgba(152, 101, 247, 0.6)', 'rgba(239, 141, 131, 0.6)', 'rgba(23, 53, 110, 0.4)'];
-                    var numbers = '₁₂₃₄₅'
+                    var numbers = '₁₂₃₄₅';
                     
                     var xs = response.x_start.split(' ');
 
@@ -154,21 +164,29 @@ $(document).ready(function(){
         })
     })
 
-    $('#findDecision').click(function()
+    $('#findDecision').click(function(e)
     {
+        e.preventDefault();
+        
+        values = get_values();
+        
         $.ajax({
             url: '',
             type: 'get',
-            contenType: 'application/json',
+            contentType: 'application/json',
             data: {
-                button_text: $(this).text(),
+                action: 'find',
+                cells_values: JSON.stringify(values)
             },
             success: function(response){
-                let a = document.querySelector('#cardChart2');
-                a.style.display = 'block';
 
-                let b = document.querySelector('#cardChart2');
-                b.style.display = 'block';
+                if (!bad_values(response.bad))
+                {
+                    
+
+                    let a = document.querySelector('#cardChart2');
+                    a.style.display = 'block';
+                }
             }
         })
     })

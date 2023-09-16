@@ -14,7 +14,6 @@ def index():
     start_values = []
     bad_values = []
 
-
     if request.is_json:
         cells = request.args.get('cells_values')
 
@@ -45,15 +44,17 @@ def index():
         sum_a = 0
         sum_b = 0
         sum_x = 0
+        start_values = []
 
         if (len(bad_values) == 0):
             xs = []
 
             for i in range(0, len(cells_values), 2):
-                sum_a += int(cells_values[i])
+                start_values.append([i // 2, int(cells_values[i]), int(cells_values[i + 1])])
+                sum_a += start_values[i // 2][1]
                 xs.append(max(sum_a - sum_x - sum_b, 0))
                 sum_x += xs[i // 2]
-                sum_b += int(cells_values[i + 1])
+                sum_b += start_values[i // 2][2]
 
             print(len(cells_values), sum_a, sum_x, sum_b)
             for i in range(len(xs)):
@@ -63,8 +64,44 @@ def index():
 
         print(T)
 
-        return jsonify({'bad': (' ').join(bad_values), 'T': T, 'x_start': (' ').join(x_start)})
+        mas_a = []
+        mas_b = []
+
+        k = len(start_values)
+        for i in range(k):
+            m = start_values[0][1]
+            row = 0
+            ind = 0
+            #print('ja тут: ', i, row, start_values)
+            for j in range(len(start_values)):
+                for t in range(2):
+                    if (start_values[j][t + 1] < m):
+                        m = start_values[j][t + 1]
+                        row = j
+                        ind = t
+            
+            if (ind == 0):
+                mas_a.append(start_values[row])
+            else:
+                mas_b.append(start_values[row])
+
+            start_values.pop(row)
+
+            #print('мы тут: ', m, row, ind, start_values)
+        mas_b.reverse()
+        result_values = mas_a + mas_b
+        res_str = []
+
+        for i in range(len(result_values)):
+            for j in range(3):
+                res_str.append(str(result_values[i][j]))
+
+        print(result_values)
+        print(res_str)
+
+        return jsonify({'bad': (' ').join(bad_values), 'T': T, 'x_start': (' ').join(x_start), 'res': (' ').join(res_str)})
     else:
+        print('phere')
         return render_template("index.html", title = "2")
 
 @app.route('/nx3')
