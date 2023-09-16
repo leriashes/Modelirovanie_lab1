@@ -38,10 +38,22 @@ def index():
 
             if count < len(cells_values[i]) or len(cells_values[i]) == 0 or len(cells_values[i]) == 1 and cells_values[i][0] == '0':
                 bad_values.append(str(i))
-            else:
+                print('bad ', i, cells_values[i])
+                    
+            '''add = True
+            for j in range(2):
+                if count < len(cells_values[i + j]) or len(cells_values[i + j]) == 0 or len(cells_values[i + j]) == 1 and cells_values[i + j][0] == '0':
+                    bad_values.append(str(i + j))
+                    add = False
+                    print('bad ', i + j, cells_values[i + j])
+
+            if add:
                 if (i % k) == 0:
                     start_values.append([i // k, int(cells_values[i]), int(cells_values[i + 1])])
+                print('good ', i, cells_values[i])
+                print('gooood ', i, cells_values[i], cells_values[i + 1])
 
+            i += 2'''
             i += 1
 
         print(start_values)
@@ -52,6 +64,11 @@ def index():
         sum_x = 0
 
         if (len(bad_values) == 0):
+
+            for i in range(0, len(cells_values), 2):
+                start_values.append([i // 2, int(cells_values[i]), int(cells_values[i + 1])])
+
+
             if (request.args.get('action') == 'draw'):
                 xs = []
 
@@ -120,21 +137,11 @@ def index():
                 print('tyt')
 
                 return jsonify({'bad': (' ').join(bad_values), 'T': T, 'X': (' ').join(X), 'res': (' ').join(res_str)})
+        return jsonify({'bad': (' ').join(bad_values)})
     else:
-        return render_template("index.html", title = "2")
+        return render_template("index.html", title = "Задача для 2 станков", type = 2)
 
 @app.route('/nx3')
 def nx3():
-    # Graph One
-    df = pd.DataFrame([
-    dict(Task="Job A", Start='2009-01-01', Finish='2009-02-28'),
-    dict(Task="Job B", Start='2009-03-05', Finish='2009-04-15'),
-    dict(Task="Job C", Start='2009-02-20', Finish='2009-05-30')
-])
 
-    fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task")
-    fig.update_yaxes(autorange="reversed")
-
-    graph1JSON = json.dumps(fig, cls =plotly.utils.PlotlyJSONEncoder)
-
-    return render_template("index.html", title = "3", graph1JSON = graph1JSON)
+    return render_template("index.html", title = "Задача для 3", type = 3)
