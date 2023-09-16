@@ -94,7 +94,7 @@ def index():
 
         for i in range(len(result_values)):
             for j in range(3):
-                res_str.append(str(result_values[i][j]))
+                res_str.append(str(result_values[i][j] + 1 * (j == 0)))
 
         print(result_values)
         print(res_str)

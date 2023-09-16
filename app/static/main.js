@@ -179,10 +179,16 @@ $(document).ready(function(){
                 cells_values: JSON.stringify(values)
             },
             success: function(response){
-
+                
                 if (!bad_values(response.bad))
                 {
-                    
+                    let cells = document.querySelectorAll('.res-cell');
+                    var res = response.res.split(' ');
+
+                    for(i = 0; i < cells.length; i++)
+                    {
+                        cells[i].innerHTML = res[i];
+                    }
 
                     let a = document.querySelector('#cardChart2');
                     a.style.display = 'block';

@@ -91,48 +91,60 @@
                         <table class="table table-bordered" >
                             <thead>
                               <tr>
-                                <th scope="col">№</th>
-                                <th scope="col">№<sub>исх</sub></th>
-                                <th scope="col">a<sub>i</sub></th>
-                                <th scope="col">b<sub>i</sub></th>
-                                <th scope="col" style="display: none;">c<sub>i</sub></th>
+                                <th scope="col" style="width: 10px;">№</th>
+                                <th scope="col" style="width: 10px;">№<sub>исх</sub></th>
+                                <th scope="col"> a<sub>i</sub></th>
+                                <th scope="col"> b<sub>i</sub></th>
+                                {% if title == '3' %}
+                                  <th scope="col">c<sub>i</sub></th>
+                                {% endif %}
                               </tr>
                             </thead>
                             <tbody>
                               <tr>
                                 <th scope="row">1</th>
+                                <td class="res-cell" text="abc">Mark</td>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell" style="display: none;">@mdo</td>
+                                {% if title == '3' %}
+                                  <td class="res-cell"></td>
+                                {% endif %}
                               </tr>
                               <tr>
                                 <th scope="row">2</th>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
-                                <td class="res-cell" style="display: none;">@fat</td>
+                                {% if title == '3' %}
+                                  <td class="res-cell"></td>
+                                {% endif %}
                               </tr>
                               <tr>
                                 <th scope="row">3</th>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
-                                <td class="res-cell" style="display: none;">@twitter</td>
+                                {% if title == '3' %}
+                                  <td class="res-cell"></td>
+                                {% endif %}
                               </tr>
                               <tr>
                                 <th scope="row">4</th>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
-                                <td class="res-cell" style="display: none;">@twitter</td>
+                                {% if title == '3' %}
+                                  <td class="res-cell"></td>
+                                {% endif %}
                               </tr>
                               <tr>
                                 <th scope="row">5</th>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
                                 <td class="res-cell">Mark</td>
-                                <td class="res-cell" style="display: none;">@twitter</td>
+                                {% if title == '3' %}
+                                  <td class="res-cell"></td>
+                                {% endif %}
                               </tr>
                             </tbody>
                           </table>
