@@ -109,18 +109,18 @@ $(document).ready(function(){
                         orientation: 'h',
                         width: 0.5,
                         marker: {
-                          color: colors[5],
+                          color: 'rgba(23, 53, 110, 0.8)',
                           width: 1
                         },
                         type: 'bar',
-                        
+                        visible: 'legendonly'
                     });
 
 
-                      t = response.T / 45 + 1
+                      t = parseInt(response.T / 45) + 1
                       
                       var layout = {
-                        title: 'Диаграмма Ганта',
+                        title: 'График Ганта',
                         barmode: 'stack',
                         legend:
                         {

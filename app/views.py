@@ -46,9 +46,6 @@ def index():
         sum_b = 0
         sum_x = 0
 
-
-        T = sum_x + sum_b
-
         if (len(bad_values) == 0):
             xs = []
 
@@ -61,6 +58,10 @@ def index():
             print(len(cells_values), sum_a, sum_x, sum_b)
             for i in range(len(xs)):
                 x_start.append(str(xs[i]))
+
+        T = sum_x + sum_b
+
+        print(T)
 
         return jsonify({'bad': (' ').join(bad_values), 'T': T, 'x_start': (' ').join(x_start)})
     else:
