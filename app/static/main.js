@@ -48,13 +48,19 @@ function bad_values(bad)
     return result;
 }
 
-function draw_graph(s, xs, T, values, table_number)
+function draw_graph(s, xs, ys, T, values, table_number)
 {
     var data = [];
-    var colors = ['rgba(237, 178, 81, 0.6)', 'rgba(187, 247, 116, 0.6)', 'rgba(103, 224, 224, 0.6)', 'rgba(152, 101, 247, 0.6)', 'rgba(239, 141, 131, 0.6)', 'rgba(23, 53, 110, 0.4)'];
+    var colors = ['rgba(237, 178, 81, 0.6)', 'rgba(187, 247, 116, 0.6)', 'rgba(103, 224, 224, 0.6)', 'rgba(152, 101, 247, 0.6)', 'rgba(239, 141, 131, 0.6)', 'rgba(23, 53, 110, 0.4)', 'rgba(13, 43, 100, 0.4)'];
     var numbers = '₁₂₃₄₅';
 
     len = values.length;
+    step = 2;
+
+    if (ys != null)
+    {
+        step = 3;
+    }
 
     /*if (table_number == 2)
     {
@@ -62,12 +68,36 @@ function draw_graph(s, xs, T, values, table_number)
     }*/
    //$('#findDecision').text(values);
 
-    for (i = 0; i < len; i += 2)
+    for (i = 0; i < len; i += step)
     {
+        xz = [parseInt(values[i + 1]), parseInt(values[i])];
+        yz = ['B', 'A'];
+
+        if (step == 3)
+        {
+            data.push({
+                x: [parseInt(ys[i / step])],
+                y: ['C'],
+                name: 'y' + numbers[i / step],
+                orientation: 'h',
+                width: 0.5,
+                marker: {
+                    color: colors[6],
+                    width: 1
+                },
+                type: 'bar',
+                showlegend: false,
+            });
+
+            xz = [parseInt(values[i + 2])].concat(xz)
+            yz = ['C'].concat(yz)
+        }
+
+
         data.push({
-            x: [parseInt(xs[i / 2])],
+            x: [parseInt(xs[i / step])],
             y: ['B'],
-            name: 'x' + numbers[i / 2],
+            name: 'x' + numbers[i / step],
             orientation: 'h',
             width: 0.5,
             marker: {
@@ -78,27 +108,31 @@ function draw_graph(s, xs, T, values, table_number)
             showlegend: false,
         });
 
-        name_str = (i / 2 + 1).toString();
+        name_str = (i / (step) + 1).toString();
+
+        
 
         if (table_number == 2)
         {
-            name_str += '(' + s[i / 2].toString() + ')';
+            name_str += '(' + s[i / (step)].toString() + ')';
         }
+
         data.push({
-            x: [parseInt(values[i + 1]), parseInt(values[i])],
-            y: ['B', 'A'],
+            x: xz,
+            y: yz,
             name: name_str,
             orientation: 'h',
             width: 0.5,
             marker: {
-                color: colors[s[i / 2] - 1],
+                color: colors[s[i / step] - 1],
                 width: 1
             },
             type: 'bar'
         });
 
     }
-        
+
+    
     data.push({
         x: [0],
         y: ['B'],
@@ -106,13 +140,32 @@ function draw_graph(s, xs, T, values, table_number)
         orientation: 'h',
         width: 0.5,
         marker: {
-            color: 'rgba(23, 53, 110, 0.8)',
-            width: 1
+          color: 'rgba(23, 53, 110, 0.8)',
+          width: 1
         },
         type: 'bar',
         visible: 'legendonly'
-    });
+    }); 
 
+    
+    if (step == 3)
+    {
+        data.push({
+            x: [0],
+            y: ['C'],
+            name: 'yᵢ',
+            orientation: 'h',
+            width: 0.5,
+            marker: {
+                color: 'rgba(13, 43, 100, 0.8)',
+                width: 1
+            },
+            type: 'bar',
+            visible: 'legendonly'
+        });
+    }
+
+       
 
     t = parseInt(T / 45) + 1
     
@@ -174,7 +227,14 @@ $(document).ready(function(){
                         values.push(cells[i].value)
                     }
 
-                    draw_graph([1, 2, 3, 4, 5], response.mas_x.split(' '), response.T, values, 1);
+                    if (response.mas_y == null)
+                    {
+                        draw_graph([1, 2, 3, 4, 5], response.mas_x.split(' '), null, response.T, values, 1);
+                    }
+                    else
+                    {
+                        draw_graph([1, 2, 3, 4, 5], response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 1);
+                    }
 
                     /*var data = [];
                     var colors = ['rgba(237, 178, 81, 0.6)', 'rgba(187, 247, 116, 0.6)', 'rgba(103, 224, 224, 0.6)', 'rgba(152, 101, 247, 0.6)', 'rgba(239, 141, 131, 0.6)', 'rgba(23, 53, 110, 0.4)'];
@@ -306,9 +366,18 @@ $(document).ready(function(){
                         cells[i].innerHTML = res[i];
                     }
 
-                    //$('#findDecision').text(values.length);
 
-                    draw_graph(s, response.mas_x.split(' '), response.T, values, 2);
+                    $('#findDecision').text(response.mas_y.split(' '));
+
+
+                    if (response.mas_y == null)
+                    {
+                        draw_graph(s, response.mas_x.split(' '), null, response.T, values, 2);
+                    }
+                    else
+                    {
+                        draw_graph(s, response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 2);
+                    }
 
                     let a = document.querySelector('#cardChart2');
                     a.style.display = 'block';

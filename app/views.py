@@ -197,22 +197,29 @@ def nx3():
 
                 print(res_str)
                 xs = []
+                ys = []
                 print(len(result_values))
                 for i in range(len(result_values)):
-                    sum_a += result_values[i][1]
+                    print(1, sum_a, sum_b, sum_c, sum_x, sum_y)
+                    sum_a += start_values[result_values[i][0]][1]
                     xs.append(max(sum_a - sum_x - sum_b, 0))
                     sum_x += xs[i]
-                    sum_b += result_values[i][2]
-
+                    sum_b += start_values[result_values[i][0]][2]
+                    ys.append(max(sum_x + sum_b - sum_y - sum_c, 0))
+                    sum_y += ys[i]
+                    sum_c += start_values[result_values[i][0]][3]
+                    print(2, sum_a, sum_b, sum_c, sum_x, sum_y)
+                print(xs, ys)
                 print(len(cells_values), sum_a, sum_x, sum_b)
                 for i in range(len(xs)):
                     mas_x.append(str(xs[i]))
+                    mas_y.append(str(ys[i]))
 
-                T = sum_x + sum_b
+                T = sum_y + sum_c
                 print(bad_values, T, mas_x, mas_y, res_str)
                 print('tyt')
 
-                return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'res': (' ').join(res_str)})
+                return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'mas_y': (' ').join(mas_y), 'res': (' ').join(res_str)})
         return jsonify({'bad': (' ').join(bad_values)})
     else:
         return render_template("index.html", title = "Задача для 3 станков", type = 3)
