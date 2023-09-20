@@ -85,6 +85,12 @@
             <h2 class="text-center">
                 Оптимальный порядок
             </h2>
+
+          <div>
+            <h3>
+              Метод Джонсона
+            </h3>
+
             <div class="row">
                 <div class="col-3">
                     <div class="row p-4">
@@ -103,47 +109,134 @@
                             <tbody>
                               <tr>
                                 <th scope="row">1</th>
-                                <td class="res-cell" text="abc">Mark</td>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
+                                <td class="res-cell1" text="abc">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
                                 {% if type == 3 %}
-                                  <td class="res-cell"></td>
+                                  <td class="res-cell1"></td>
                                 {% endif %}
                               </tr>
                               <tr>
                                 <th scope="row">2</th>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
                                 {% if type == 3 %}
-                                  <td class="res-cell"></td>
+                                  <td class="res-cell1"></td>
                                 {% endif %}
                               </tr>
                               <tr>
                                 <th scope="row">3</th>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
                                 {% if type == 3 %}
-                                  <td class="res-cell"></td>
+                                  <td class="res-cell1"></td>
                                 {% endif %}
                               </tr>
                               <tr>
                                 <th scope="row">4</th>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
                                 {% if type == 3 %}
-                                  <td class="res-cell"></td>
+                                  <td class="res-cell1"></td>
                                 {% endif %}
                               </tr>
                               <tr>
                                 <th scope="row">5</th>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
-                                <td class="res-cell">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
+                                <td class="res-cell1">Mark</td>
                                 {% if type == 3 %}
-                                  <td class="res-cell"></td>
+                                  <td class="res-cell1"></td>
+                                {% endif %}
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+
+                    <a>
+                      Время выполнения
+                    </a>
+                </div>
+                <div class="col-9">
+                  <div class="row p-4">
+                      <div class="card mb-4 m-auto p-0 text-center" style = "width: 90%; height: 500px;">
+                          <div class="card-body" >
+                              <div id = "chart2" style="margin-left: 0; margin-right: 0; margin-bottom: 0; margin-top: auto; height: 480px; width: 800px;" ></div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+
+          <div>
+            <h3>
+              Метод полного перебора
+            </h3>
+
+            <div class="row">
+                <div class="col-3">
+                    <div class="row p-4">
+                        <table class="table table-bordered" >
+                            <thead>
+                              <tr>
+                                <th scope="col" style="width: 10px;">№</th>
+                                <th scope="col" style="width: 10px;">№<sub>исх</sub></th>
+                                <th scope="col"> a<sub>i</sub></th>
+                                <th scope="col"> b<sub>i</sub></th>
+                                {% if type == 3 %}
+                                  <th scope="col">c<sub>i</sub></th>
+                                {% endif %}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td class="res-cell2" text="abc">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                {% if type == 3 %}
+                                  <td class="res-cell2"></td>
+                                {% endif %}
+                              </tr>
+                              <tr>
+                                <th scope="row">2</th>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                {% if type == 3 %}
+                                  <td class="res-cell2"></td>
+                                {% endif %}
+                              </tr>
+                              <tr>
+                                <th scope="row">3</th>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                {% if type == 3 %}
+                                  <td class="res-cell2"></td>
+                                {% endif %}
+                              </tr>
+                              <tr>
+                                <th scope="row">4</th>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                {% if type == 3 %}
+                                  <td class="res-cell2"></td>
+                                {% endif %}
+                              </tr>
+                              <tr>
+                                <th scope="row">5</th>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                <td class="res-cell2">Mark</td>
+                                {% if type == 3 %}
+                                  <td class="res-cell2"></td>
                                 {% endif %}
                               </tr>
                             </tbody>
@@ -160,6 +253,7 @@
                   </div>
                 </div>
               </div>
+          </div>
         </div>
         
       </div>

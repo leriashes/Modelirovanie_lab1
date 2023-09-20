@@ -345,7 +345,7 @@ $(document).ready(function(){
                 
                 if (!bad_values(response.bad))
                 {
-                    let cells = document.querySelectorAll('.res-cell');
+                    let cells = document.querySelectorAll('.res-cell1');
                     var res = response.res.split(' ');
                     let s = [];
 
@@ -367,7 +367,7 @@ $(document).ready(function(){
                     }
 
 
-                    $('#findDecision').text(response.mas_y.split(' '));
+                    //$('#findDecision').text(response.mas_y.split(' '));
 
 
                     if (response.mas_y == null)

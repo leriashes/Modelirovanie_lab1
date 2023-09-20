@@ -180,6 +180,22 @@ def nx3():
                 return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'mas_y': (' ').join(mas_y)})
 
             elif (request.args.get('action') == 'find'):
+                #проверка условия Джонсона
+                min_a = start_values[0][1]
+                max_b = start_values[0][2]
+                min_c = start_values[0][3]
+
+                for i in range(1, len(start_values)):
+                    if (start_values[i][1] < min_a):
+                        min_a = start_values[i][1]
+                    if (start_values[i][2] > max_b):
+                        max_b = start_values[i][2]
+                    if (start_values[i][3] < min_c):
+                        min_c = start_values[i][3]
+
+                cond = (min_a >= max_b) or (min_c >= max_b)
+
+                print(cond)
 
                 de_values = []
 
