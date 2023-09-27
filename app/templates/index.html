@@ -157,7 +157,7 @@
                     </div>
 
                     {% if type == 3 %}
-                      <a>
+                      <a id="jtime">
                         Время выполнения
                       </a>
                     {% endif %}
@@ -245,6 +245,12 @@
                             </tbody>
                           </table>
                     </div>
+
+                    {% if type == 3 %}
+                      <a id="ptime">
+                        Время выполнения
+                      </a>
+                    {% endif %}
                 </div>
                 <div class="col-9">
                   <div class="row p-4">

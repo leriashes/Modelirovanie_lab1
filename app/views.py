@@ -5,6 +5,8 @@ import pandas as pd
 import json
 import plotly
 import plotly.express as px
+from datetime import datetime
+
 
 def toStrArray(cells):
 
@@ -85,7 +87,7 @@ def countTStart(n, step, start_values):
 def countT(n, values, type):
     return (countTStart(n, type + 2, values))
 
-def countT(values, seq):
+def countTseq(values, seq):
     sum_a = 0
     sum_b = 0
     sum_c = 0
@@ -199,11 +201,6 @@ def nx3():
         mas_x = []
         mas_y = []
         start_values = []
-        sum_a = 0
-        sum_b = 0
-        sum_c = 0
-        sum_x = 0
-        sum_y = 0
 
         if (len(bad_values) == 0):
 
@@ -223,6 +220,9 @@ def nx3():
                 ps = [0, 1, 2, 3, 4]
                 n = len(ps)
                 j = 1
+
+                start_time = datetime.now()
+
                 while True:
                     i = 3
                     while i != -1 and ps[i] >= ps[i + 1]:
@@ -244,16 +244,23 @@ def nx3():
                         l += 1
                         r -= 1
 
-                    tT, tmas_x, tmas_y = countT(start_values, ps)
+                    tT, tmas_x, tmas_y = countTseq(start_values, ps)
 
                     if (tT < pT):
                         pT = tT
                         pmas_x = tmas_x
                         pmas_y = tmas_y
-                    print(j, ps, tT, pT)
                     j += 1
 
+                ptime = datetime.now() - start_time
+                print(ptime)
 
+                pres_str = []
+
+                for i in range(len(ps)):
+                    pres_str.append(str(ps[i] + 1))
+                    for j in range(3):
+                        pres_str.append(str(start_values[ps[i]][j + 1]))
 
                 #проверка условия Джонсона
                 min_a = start_values[0][1]
@@ -270,33 +277,39 @@ def nx3():
 
                 cond = (min_a >= max_b) or (min_c >= max_b)
 
-                print(cond)
-
                 if (cond):
-                    print()
 
-                de_values = []
+                    start_time = datetime.now()
 
-                for i in range(len(start_values)):
-                    de_values.append([start_values[i][0], start_values[i][1] + start_values[i][2], start_values[i][2] + start_values[i][3]])
+                    de_values = []
 
-                result_values = JohnsonAlgorithm(de_values)
+                    for i in range(len(start_values)):
+                        de_values.append([start_values[i][0], start_values[i][1] + start_values[i][2], start_values[i][2] + start_values[i][3]])
+
+                    result_values = JohnsonAlgorithm(de_values)
+
+                    seq = []
+                    for i in range(len(result_values)):
+                        seq.append(result_values[i][0])
+
+                    T, mas_x, mas_y = countTseq(start_values, seq)
+
+                    jtime = datetime.now() - start_time
+
+                    print(jtime)
+
+
+
+                    res_str = []
+
+                    for i in range(len(result_values)):
+                        res_str.append(str(result_values[i][0] + 1))
+                        for j in range(3):
+                            res_str.append(str(start_values[result_values[i][0]][j + 1]))
+
+                    return jsonify({'jtime': str(jtime), 'ptime': str(ptime), 'pT': pT, 'pmas_x': (' ').join(pmas_x), 'pmas_y': (' ').join(pmas_y), 'pres': (' ').join(pres_str), 'T': T, 'mas_x': (' ').join(mas_x), 'mas_y': (' ').join(mas_y), 'res': (' ').join(res_str), 'cond': cond})
+                return jsonify({'pT': pT, 'pmas_x': (' ').join(pmas_x), 'pmas_y': (' ').join(pmas_y), 'pres': (' ').join(pres_str), 'cond': cond})
                 
-                res_str = []
-
-                for i in range(len(result_values)):
-                    res_str.append(str(result_values[i][0] + 1))
-                    for j in range(3):
-                        res_str.append(str(start_values[result_values[i][0]][j + 1]))
-
-                seq = []
-                for i in range(len(result_values)):
-                    seq.append(result_values[i][0])
-
-                T, mas_x, mas_y = countT(start_values, seq)
-                print("johnson", T)
-
-                return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'mas_y': (' ').join(mas_y), 'res': (' ').join(res_str), 'cond': cond})
         return jsonify({'bad': (' ').join(bad_values)})
     else:
         return render_template("index.html", title = "Задача для 3 станков", type = 3)

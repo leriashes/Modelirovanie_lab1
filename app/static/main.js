@@ -258,45 +258,85 @@ $(document).ready(function(){
                 
                 if (!bad_values(response.bad))
                 {
-                    let cells = document.querySelectorAll('.res-cell1');
-                    var res = response.res.split(' ');
-                    let s = [];
-
-                    let n = res.length / 5;
-                    values = []
-
-                    for(i = 0; i < cells.length; i++)
+                    if (response.cond == null || response.cond == true)
                     {
-                        if (i % n == 0)
+                        let cells = document.querySelectorAll('.res-cell1');
+                        var res = response.res.split(' ');
+                        let s = [];
+
+                        let n = res.length / 5;
+                        values = []
+
+                        for(i = 0; i < cells.length; i++)
                         {
-                            s.push(parseInt(res[i]));
+                            if (i % n == 0)
+                            {
+                                s.push(parseInt(res[i]));
+                            }
+                            else
+                            {
+                                values.push(res[i])
+                            }
+
+                            cells[i].innerHTML = res[i];
+                        }
+
+
+                        if (response.mas_y == null)
+                        {
+                            draw_graph(s, response.mas_x.split(' '), null, response.T, values, 2);
                         }
                         else
                         {
-                            values.push(res[i])
+                            let b = document.querySelector('#Johnson');
+                            b.style.display = 'block';
+
+                            draw_graph(s, response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 2);
+
+                            if (response.jtime != null)
+                            {
+                                let j = document.querySelector('#jtime');
+                                let p = document.querySelector('#ptime');
+                                p.style.display = 'block';
+
+                                j.innerHTML = "Время выполнения\n" + response.jtime;
+                                p.innerHTML = "Время выполнения\n" + response.ptime;
+                            }
                         }
-
-                        cells[i].innerHTML = res[i];
-                    }
-
-
-                    if (response.mas_y == null)
-                    {
-                        draw_graph(s, response.mas_x.split(' '), null, response.T, values, 2);
                     }
                     else
                     {
                         let b = document.querySelector('#Johnson');
-                        if(response.cond != null && response.cond == true)
+                        b.style.display = 'none';
+
+                        let p = document.querySelector('#ptime');
+                        p.style.display = 'none';
+                    }
+
+                    if (response.cond != null)
+                    {
+                        let cells = document.querySelectorAll('.res-cell2');
+                        var res = response.pres.split(' ');
+                        let s = [];
+
+                        let n = res.length / 5;
+                        values = []
+
+                        for(i = 0; i < cells.length; i++)
                         {
-                            draw_graph(s, response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 2);
-                            b.style.display = 'block';
+                            if (i % n == 0)
+                            {
+                                s.push(parseInt(res[i]));
+                            }
+                            else
+                            {
+                                values.push(res[i])
+                            }
+
+                            cells[i].innerHTML = res[i];
                         }
-                        else
-                        {
-                            b.style.display = 'none';
-                        }
-                        draw_graph(s, response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 3);
+
+                        draw_graph(s, response.pmas_x.split(' '), response.pmas_y.split(' '), response.pT, values, 3);
                     }
 
                     let a = document.querySelector('#cardChart2');
