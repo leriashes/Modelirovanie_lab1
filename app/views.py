@@ -35,6 +35,86 @@ def findBad(cells_values):
 
     return bad_values
 
+
+def countTStart(n, step, start_values):
+    sum_a = 0
+    sum_b = 0
+    sum_c = 0
+    sum_x = 0
+    sum_y = 0
+    T = 0
+    three = False
+
+    mas_x = []
+    mas_y = []
+
+    xs = []
+    ys = []
+
+    if (step > 3):
+        step = 1
+
+    if (step == 3 or step == 5):
+        three = True
+        
+
+    for i in range(0, n, step):
+        sum_a += start_values[i // step][1]
+        xs.append(max(sum_a - sum_x - sum_b, 0))
+        sum_x += xs[i // step]
+        sum_b += start_values[i // step][2]
+        if (three):
+            ys.append(max(sum_x + sum_b - sum_y - sum_c, 0))
+            sum_y += ys[i // step]
+            sum_c += start_values[i // step][3]
+
+    for i in range(len(xs)):
+        mas_x.append(str(xs[i]))
+        if (three):
+            mas_y.append(str(ys[i]))
+
+        
+    if (three):
+        T = sum_y + sum_c
+    else:
+        T = sum_x + sum_b
+
+    return (T, mas_x, mas_y)
+
+
+def countT(n, values, type):
+    return (countTStart(n, type + 2, values))
+
+def countT(values, seq):
+    sum_a = 0
+    sum_b = 0
+    sum_c = 0
+    sum_x = 0
+    sum_y = 0
+
+    mas_x = []
+    mas_y = []
+
+    xs = []
+    ys = []
+    for i in range(len(seq)):
+        sum_a += values[seq[i]][1]
+        xs.append(max(sum_a - sum_x - sum_b, 0))
+        sum_x += xs[i]
+        sum_b += values[seq[i]][2]
+        ys.append(max(sum_x + sum_b - sum_y - sum_c, 0))
+        sum_y += ys[i]
+        sum_c += values[seq[i]][3]
+
+    for i in range(len(xs)):
+        mas_x.append(str(xs[i]))
+        mas_y.append(str(ys[i]))
+
+    T = sum_y + sum_c
+
+    return (T, mas_x, mas_y)
+
+
 def JohnsonAlgorithm(start_values):
     mas_a = []
     mas_b = []
@@ -64,7 +144,7 @@ def JohnsonAlgorithm(start_values):
     return result_values
 
 
-
+#Для 2-х станков
 @app.route('/')
 @app.route('/index')
 @app.route('/nx2')
@@ -75,9 +155,6 @@ def index():
 
         mas_x = []
         start_values = []
-        sum_a = 0
-        sum_b = 0
-        sum_x = 0
 
         if (len(bad_values) == 0):
 
@@ -85,24 +162,14 @@ def index():
                 start_values.append([i // 2, int(cells_values[i]), int(cells_values[i + 1])])
 
 
+            #Прорисовка графика по исходным значениям - вычисление x
             if (request.args.get('action') == 'draw'):
-                xs = []
 
-                for i in range(0, len(cells_values), 2):
-                    #start_values.append([i // 2, int(cells_values[i]), int(cells_values[i + 1])])
-                    sum_a += start_values[i // 2][1]
-                    xs.append(max(sum_a - sum_x - sum_b, 0))
-                    sum_x += xs[i // 2]
-                    sum_b += start_values[i // 2][2]
+                T, mas_x, y = countTStart(len(cells_values), 2, start_values)
 
-                #print(len(cells_values), sum_a, sum_x, sum_b)
-                for i in range(len(xs)):
-                    mas_x.append(str(xs[i]))
+                return jsonify({'T': T, 'mas_x': (' ').join(mas_x)})
 
-                T = sum_x + sum_b
-
-                return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x)})
-
+            #Поиск решения
             elif (request.args.get('action') == 'find'):
                 
                 result_values = JohnsonAlgorithm(start_values)
@@ -112,28 +179,16 @@ def index():
                     for j in range(3):
                         res_str.append(str(result_values[i][j] + 1 * (j == 0)))
 
+                T, mas_x, y = countT(len(result_values), result_values, 2)
 
-                xs = []
-                print(len(result_values))
-                for i in range(len(result_values)):
-                    sum_a += result_values[i][1]
-                    xs.append(max(sum_a - sum_x - sum_b, 0))
-                    sum_x += xs[i]
-                    sum_b += result_values[i][2]
-
-                print(len(cells_values), sum_a, sum_x, sum_b)
-                for i in range(len(xs)):
-                    mas_x.append(str(xs[i]))
-
-                T = sum_x + sum_b
-                print(bad_values, T, mas_x, res_str)
-                print('tyt')
-
-                return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'res': (' ').join(res_str)})
+                return jsonify({'T': T, 'mas_x': (' ').join(mas_x), 'res': (' ').join(res_str)})
         return jsonify({'bad': (' ').join(bad_values)})
     else:
         return render_template("index.html", title = "Задача для 2 станков", type = 2)
 
+
+
+#Для 3-х станков
 @app.route('/nx3')
 def nx3():
 
@@ -155,31 +210,51 @@ def nx3():
             for i in range(0, len(cells_values), 3):
                 start_values.append([i // 3, int(cells_values[i]), int(cells_values[i + 1]), int(cells_values[i + 2])])
 
-
+            #Прорисовка графика по исходным значениям - вычисление x, y
             if (request.args.get('action') == 'draw'):
-                xs = []
-                ys = []
-
-                for i in range(0, len(cells_values), 3):
-                    #start_values.append([i // 2, int(cells_values[i]), int(cells_values[i + 1])])
-                    sum_a += start_values[i // 3][1]
-                    xs.append(max(sum_a - sum_x - sum_b, 0))
-                    sum_x += xs[i // 3]
-                    sum_b += start_values[i // 3][2]
-                    ys.append(max(sum_x + sum_b - sum_y - sum_c, 0))
-                    sum_y += ys[i // 3]
-                    sum_c += start_values[i // 3][3]
-
-                #print(len(cells_values), sum_a, sum_x, sum_b)
-                for i in range(len(xs)):
-                    mas_x.append(str(xs[i]))
-                    mas_y.append(str(ys[i]))
-
-                T = sum_y + sum_c
+                T, mas_x, mas_y = countTStart(len(cells_values), 3, start_values)
 
                 return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'mas_y': (' ').join(mas_y)})
 
+            #Поиск решения
             elif (request.args.get('action') == 'find'):
+                # метод перебора
+                pT, pmas_x, pmas_y = countTStart(len(cells_values), 3, start_values)
+                ps = [0, 1, 2, 3, 4]
+                n = len(ps)
+                j = 1
+                while True:
+                    i = 3
+                    while i != -1 and ps[i] >= ps[i + 1]:
+                        i -= 1
+                    if i == -1:
+                        break
+                    
+                    k = n - 1
+                    while ps[i] >= ps[k]:
+                        k -= 1
+
+                    ps[i], ps[k] = ps[k], ps[i]
+
+                    l = i + 1
+                    r = n - 1
+
+                    while l < r:
+                        ps[l], ps[r] = ps[r], ps[l]
+                        l += 1
+                        r -= 1
+
+                    tT, tmas_x, tmas_y = countT(start_values, ps)
+
+                    if (tT < pT):
+                        pT = tT
+                        pmas_x = tmas_x
+                        pmas_y = tmas_y
+                    print(j, ps, tT, pT)
+                    j += 1
+
+
+
                 #проверка условия Джонсона
                 min_a = start_values[0][1]
                 max_b = start_values[0][2]
@@ -197,6 +272,9 @@ def nx3():
 
                 print(cond)
 
+                if (cond):
+                    print()
+
                 de_values = []
 
                 for i in range(len(start_values)):
@@ -205,35 +283,18 @@ def nx3():
                 result_values = JohnsonAlgorithm(de_values)
                 
                 res_str = []
-                print('here we',result_values)
+
                 for i in range(len(result_values)):
                     res_str.append(str(result_values[i][0] + 1))
                     for j in range(3):
                         res_str.append(str(start_values[result_values[i][0]][j + 1]))
 
-                print(res_str)
-                xs = []
-                ys = []
-                print(len(result_values))
+                seq = []
                 for i in range(len(result_values)):
-                    print(1, sum_a, sum_b, sum_c, sum_x, sum_y)
-                    sum_a += start_values[result_values[i][0]][1]
-                    xs.append(max(sum_a - sum_x - sum_b, 0))
-                    sum_x += xs[i]
-                    sum_b += start_values[result_values[i][0]][2]
-                    ys.append(max(sum_x + sum_b - sum_y - sum_c, 0))
-                    sum_y += ys[i]
-                    sum_c += start_values[result_values[i][0]][3]
-                    print(2, sum_a, sum_b, sum_c, sum_x, sum_y)
-                print(xs, ys)
-                print(len(cells_values), sum_a, sum_x, sum_b)
-                for i in range(len(xs)):
-                    mas_x.append(str(xs[i]))
-                    mas_y.append(str(ys[i]))
+                    seq.append(result_values[i][0])
 
-                T = sum_y + sum_c
-                print(bad_values, T, mas_x, mas_y, res_str)
-                print('tyt')
+                T, mas_x, mas_y = countT(start_values, seq)
+                print("johnson", T)
 
                 return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'mas_y': (' ').join(mas_y), 'res': (' ').join(res_str), 'cond': cond})
         return jsonify({'bad': (' ').join(bad_values)})

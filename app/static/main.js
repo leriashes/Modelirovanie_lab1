@@ -1,3 +1,4 @@
+//Получение значений из ячеек таблицы
 function get_values()
 {
     values = [];
@@ -11,9 +12,10 @@ function get_values()
     return values;
 }
 
+//Проверка введённых значений и выделение неудовлетворительных
 function bad_values(bad)
 {
-    result = (bad.length != 0);
+    result = (bad != null && bad.length != 0);
     let cells = document.querySelectorAll('.form-control');
 
     if (result)
@@ -48,6 +50,7 @@ function bad_values(bad)
     return result;
 }
 
+//Прорисовка графика
 function draw_graph(s, xs, ys, T, values, table_number)
 {
     var data = [];
@@ -61,12 +64,6 @@ function draw_graph(s, xs, ys, T, values, table_number)
     {
         step = 3;
     }
-
-    /*if (table_number == 2)
-    {
-        len -= 5;
-    }*/
-   //$('#findDecision').text(values);
 
     for (i = 0; i < len; i += step)
     {
@@ -180,23 +177,20 @@ function draw_graph(s, xs, ys, T, values, table_number)
         dtick: t,
         showline: true
     },
-    /*annotations: [{
-        text: 't',
-        x: 45,
-        y: -1,
-        textposition: 'bottom left',
-        width: 0.5,
-        ax: -4000,
-        ay: 0,
-        showarrow: true
-    }]*/
     };
     
     Plotly.newPlot("chart" + table_number.toString(), data, layout);
 
 }
 
+
+
+
+
+
 $(document).ready(function(){
+
+    //График по исходным данным
     $('#drawGraph').click(function(e)
     {
         e.preventDefault();
@@ -218,8 +212,6 @@ $(document).ready(function(){
 
                 if (!bad_values(response.bad))
                 {
-                    //var graph1 = response.graphikJSON;
-                    //Plotly.plot("chart1", graph1, {});
                     values = []
                     
                     for(i = 0; i < cells.length; i++)
@@ -236,87 +228,6 @@ $(document).ready(function(){
                         draw_graph([1, 2, 3, 4, 5], response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 1);
                     }
 
-                    /*var data = [];
-                    var colors = ['rgba(237, 178, 81, 0.6)', 'rgba(187, 247, 116, 0.6)', 'rgba(103, 224, 224, 0.6)', 'rgba(152, 101, 247, 0.6)', 'rgba(239, 141, 131, 0.6)', 'rgba(23, 53, 110, 0.4)'];
-                    var numbers = '₁₂₃₄₅';
-                    
-                    var xs = response.x_start.split(' ');
-
-                    
-
-                    for (i = 0; i < cells.length; i += 2)
-                    {
-                        data.push({
-                            x: [parseInt(xs[i / 2])],
-                            y: ['B'],
-                            name: 'x' + numbers[i / 2],
-                            orientation: 'h',
-                            width: 0.5,
-                            marker: {
-                              color: colors[5],
-                              width: 1
-                            },
-                            type: 'bar',
-                            showlegend: false,
-                        });
-
-                        data.push({
-                            x: [parseInt(cells[i + 1].value), parseInt(cells[i].value)],
-                            y: ['B', 'A'],
-                            name: (i /2 + 1).toString(),
-                            orientation: 'h',
-                            width: 0.5,
-                            marker: {
-                              color: colors[i / 2],
-                              width: 1
-                            },
-                            type: 'bar'
-                        });
-
-                    }
-                      
-                    data.push({
-                        x: [0],
-                        y: ['B'],
-                        name: 'xᵢ',
-                        orientation: 'h',
-                        width: 0.5,
-                        marker: {
-                          color: 'rgba(23, 53, 110, 0.8)',
-                          width: 1
-                        },
-                        type: 'bar',
-                        visible: 'legendonly'
-                    });
-
-
-                      t = parseInt(response.T / 45) + 1
-                      
-                      var layout = {
-                        title: 'График Ганта',
-                        barmode: 'stack',
-                        legend:
-                        {
-                            traceorder: 'normal'
-                        },
-                        xaxis: {
-                            dtick: t,
-                            showline: true
-                        },
-                        /*annotations: [{
-                            text: 't',
-                            x: 45,
-                            y: -1,
-                            textposition: 'bottom left',
-                            width: 0.5,
-                            ax: -4000,
-                            ay: 0,
-                            showarrow: true
-                        }]*/
-                      /*};
-                      
-                      Plotly.newPlot("chart1", data, layout);*/
-
                     let a = document.querySelector('#cardChart1');
                     a.style.display = 'block';
                 }
@@ -327,6 +238,8 @@ $(document).ready(function(){
         })
     })
 
+
+    //Поиск решения, график(и) по оптимальному решению
     $('#findDecision').click(function(e)
     {
         e.preventDefault();
@@ -367,9 +280,6 @@ $(document).ready(function(){
                     }
 
 
-                    //$('#findDecision').text(response.mas_y.split(' '));
-
-
                     if (response.mas_y == null)
                     {
                         draw_graph(s, response.mas_x.split(' '), null, response.T, values, 2);
@@ -391,8 +301,6 @@ $(document).ready(function(){
 
                     let a = document.querySelector('#cardChart2');
                     a.style.display = 'block';
-
-                    
                 }
             }
         })
