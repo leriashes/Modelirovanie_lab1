@@ -109,7 +109,7 @@ function draw_graph(s, xs, ys, T, values, table_number)
 
         
 
-        if (table_number == 2)
+        if (table_number >= 2)
         {
             name_str += '(' + s[i / (step)].toString() + ')';
         }

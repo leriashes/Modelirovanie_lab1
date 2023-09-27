@@ -218,6 +218,7 @@ def nx3():
                 # метод перебора
                 pT, pmas_x, pmas_y = countTStart(len(cells_values), 3, start_values)
                 ps = [0, 1, 2, 3, 4]
+                prs = [0, 1, 2, 3, 4]
                 n = len(ps)
                 j = 1
 
@@ -246,21 +247,27 @@ def nx3():
 
                     tT, tmas_x, tmas_y = countTseq(start_values, ps)
 
+                    print("yay", tT, pT, tT < pT)
                     if (tT < pT):
+                        prs = ps.copy()
                         pT = tT
                         pmas_x = tmas_x
                         pmas_y = tmas_y
+                        print("yay")
                     j += 1
+
+                    print(j, prs, ps, tT, pT)
 
                 ptime = datetime.now() - start_time
                 print(ptime)
 
+                print(prs, ps)
                 pres_str = []
 
-                for i in range(len(ps)):
-                    pres_str.append(str(ps[i] + 1))
+                for i in range(len(prs)):
+                    pres_str.append(str(prs[i] + 1))
                     for j in range(3):
-                        pres_str.append(str(start_values[ps[i]][j + 1]))
+                        pres_str.append(str(start_values[prs[i]][j + 1]))
 
                 #проверка условия Джонсона
                 min_a = start_values[0][1]
