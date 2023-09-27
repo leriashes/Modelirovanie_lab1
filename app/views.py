@@ -235,7 +235,7 @@ def nx3():
                 print(bad_values, T, mas_x, mas_y, res_str)
                 print('tyt')
 
-                return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'mas_y': (' ').join(mas_y), 'res': (' ').join(res_str)})
+                return jsonify({'bad': (' ').join(bad_values), 'T': T, 'mas_x': (' ').join(mas_x), 'mas_y': (' ').join(mas_y), 'res': (' ').join(res_str), 'cond': cond})
         return jsonify({'bad': (' ').join(bad_values)})
     else:
         return render_template("index.html", title = "Задача для 3 станков", type = 3)

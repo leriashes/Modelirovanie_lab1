@@ -376,11 +376,23 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        draw_graph(s, response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 2);
+                        let b = document.querySelector('#Johnson');
+                        if(response.cond != null && response.cond == true)
+                        {
+                            draw_graph(s, response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 2);
+                            b.style.display = 'block';
+                        }
+                        else
+                        {
+                            b.style.display = 'none';
+                        }
+                        draw_graph(s, response.mas_x.split(' '), response.mas_y.split(' '), response.T, values, 3);
                     }
 
                     let a = document.querySelector('#cardChart2');
                     a.style.display = 'block';
+
+                    
                 }
             }
         })
