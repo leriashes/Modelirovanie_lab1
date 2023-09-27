@@ -156,9 +156,11 @@
                           </table>
                     </div>
 
-                    <a>
-                      Время выполнения
-                    </a>
+                    {% if type == 3 %}
+                      <a>
+                        Время выполнения
+                      </a>
+                    {% endif %}
                 </div>
                 <div class="col-9">
                   <div class="row p-4">
@@ -173,6 +175,7 @@
           </div>
 
 
+          {% if type == 3 %}
           <div>
             <h3>
               Метод полного перебора
@@ -254,6 +257,7 @@
                 </div>
               </div>
           </div>
+          {% endif %}
         </div>
         
       </div>
